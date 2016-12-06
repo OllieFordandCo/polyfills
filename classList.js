@@ -11,10 +11,11 @@ function DOMTokenList(el) {
   this.el = el;
   // The className needs to be trimmed and split on whitespace
   // to retrieve a list of classes.
-  var classes = new String(el.className);
-  classes.replace(/^\s+|\s+$/g,'').split(/\s+/);
-  for (var i = 0; i < classes.length; i++) {
-    push.call(this, classes[i]);
+  var className = el.className;
+  className = (typeof className == 'undefined' || typeof className !== 'string') ? '' : className;
+  className = className.replace(/^\s+|\s+$/g,'').split(/\s+/);
+  for (var i = 0; i < className.length; i++) {
+    push.call(this, className[i]);
   }
 };
 
@@ -25,7 +26,9 @@ DOMTokenList.prototype = {
     this.el.className = this.toString();
   },
   contains: function(token) {
-    return this.el.className.indexOf(token) != -1;
+    var className = this.el.className;
+    className = (typeof className == 'undefined' || typeof className !== 'string') ? '' : className;
+    return className.indexOf(token) != -1;
   },
   item: function(index) {
     return this[index] || null;
